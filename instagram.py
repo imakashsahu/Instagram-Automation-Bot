@@ -28,9 +28,9 @@ class InstagramBot():
 	# Returns list of hashtags from config to monitor
 	def get_hashtags_list(self):
 		hashtag = re.split(', ', self.hashtags)
-		self.logger.info(f"Monitoring '{self.hashtags}' list of hashtags in this run")
-		
-		return hashtag
+		self.logger.info(f"Monitoring '{hashtag[datetime.datetime.now().hour]}' hashtag in this run")
+		# Return hashtag on index corresponding to hour of the day
+		return hashtag[datetime.datetime.now().hour]
 	
 	def get_hashtag_id(self, hashtag):
 		try:
@@ -95,17 +95,18 @@ class InstagramBot():
 		try:
 			self.logger.info(f"Don't do anything I would do, "
 						f"and definitely don't do anything I wouldn't do…")
-			for hashtag in self.get_hashtags_list():
-				hashtag_id = self.get_hashtag_id(hashtag)
-				if hashtag_id:
-					hashtag_post = self.get_hashtag_media(hashtag_id)
+			# Fetch post for hashtag on index corresponding to hour of the day
+			hashtag = self.get_hashtags_list()
+			hashtag_id = self.get_hashtag_id(hashtag)
+			if hashtag_id:
+				hashtag_post = self.get_hashtag_media(hashtag_id)
 					
-					# Check if Post language is English
-					post = self.detect_post_lang(hashtag_post)
-					if post:
-						tmp_id = uuid.uuid4()
-						media_file = self.download_media(post['media_url'], post['media_type'])
-						print(media_file)
+				# Check if Post language is English
+				post = self.detect_post_lang(hashtag_post)
+				if post:
+					tmp_id = uuid.uuid4()
+					media_file = self.download_media(post['media_url'], post['media_type'])
+					print(media_file)
 
 		except Exception as error:
 			self.logger.error(f"[START METHOD] : {error}")
