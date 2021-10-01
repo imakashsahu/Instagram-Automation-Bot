@@ -6,3 +6,4 @@ Step 1 : Create a Facebook and get the necessary Credential for the project.
 
 Step 2 : Enter the Credentials for Graph API in to the config file (instagram_config.ini) in etc/ directory. 
 
+Step 3 : Create a account on imgbb.com and get the API key
